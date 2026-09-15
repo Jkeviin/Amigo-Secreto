@@ -143,9 +143,13 @@ main {
   color: var(--tinta);
   width: 100%;
   max-width: 480px;
+  max-height: calc(100dvh - 32px);
   border-radius: 14px;
   padding: 34px 28px 28px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   animation: destape 0.32s ease;
 }
@@ -186,6 +190,7 @@ main {
   font-size: 1.85rem;
   margin: 0 0 18px;
   padding-right: 92px;
+  overflow-wrap: anywhere;
 }
 
 .detalle-etiqueta {
@@ -198,6 +203,11 @@ main {
   font-size: 1.16rem;
   line-height: 1.6;
   margin-bottom: 22px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
 }
 
 .contenido-lista ul {
@@ -285,7 +295,26 @@ main {
   padding: 14px;
   border-radius: 8px;
   border: 1px solid rgba(43, 32, 20, 0.25);
-  resize: vertical;
+  resize: none;
+  max-height: 40dvh;
+}
+
+#vista-lectura,
+#vista-edicion {
+  min-height: 0;
+}
+
+#vista-lectura:not([hidden]) {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+#vista-edicion:not([hidden]) {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 6px;
 }
 
 .botonera {
@@ -325,6 +354,7 @@ main {
   }
 
   .tarjeta-detalle {
+    max-height: calc(100dvh - 20px);
     padding: 28px 20px 22px;
   }
 
