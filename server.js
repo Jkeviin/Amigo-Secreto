@@ -64,6 +64,19 @@ app.post("/api/personas", (req, res) => {
   res.status(201).json({ nombre, nombres: Object.keys(listas), listas });
 });
 
+// Elimina a un participante y su lista.
+app.delete("/api/personas/:nombre", (req, res) => {
+  const { nombre } = req.params;
+  const listas = cargarListas();
+  if (!(nombre in listas)) {
+    return res.status(404).json({ error: "Ese participante no existe." });
+  }
+
+  delete listas[nombre];
+  guardarListas(listas);
+  res.json({ nombres: Object.keys(listas), listas });
+});
+
 // Guarda (o actualiza) la lista de una persona.
 app.post("/api/listas/:nombre", (req, res) => {
   const { nombre } = req.params;
