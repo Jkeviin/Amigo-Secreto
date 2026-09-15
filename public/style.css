@@ -48,6 +48,37 @@ main {
   padding: 0 20px 30px;
 }
 
+.formulario-persona {
+  max-width: 520px;
+  margin: 18px auto 0;
+}
+
+.formulario-persona label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.agregar-persona {
+  display: flex;
+  gap: 10px;
+}
+
+.agregar-persona input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid rgba(243, 233, 205, 0.45);
+  border-radius: 8px;
+  padding: 12px;
+  font: inherit;
+}
+
+.mensaje-persona {
+  min-height: 1.2em;
+  margin: 8px 0 0;
+  color: var(--texto-muted);
+}
+
 .mensaje {
   text-align: center;
   padding: 50px 20px;
@@ -297,5 +328,9 @@ main {
   }
   .tarjeta-detalle {
     padding: 28px 20px 22px;
+  }
+
+  .agregar-persona {
+    flex-direction: column;
   }
 }
