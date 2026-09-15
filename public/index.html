@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amigo secreto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="cabecera">
+  <h1>Amigo secreto</h1>
+  <p class="subtitulo">Toca el nombre de la persona que quieras conocer para ver qué le gustaría recibir.</p>
+</header>
+
+<main>
+  <p id="mensaje-carga" class="mensaje">Cargando las listas…</p>
+  <div id="cuadricula" class="cuadricula" hidden></div>
+</main>
+
+<footer class="pie">
+  <p>¿No encuentras tu nombre o tu lista está vacía? Tócala y escribe tus ideas.</p>
+</footer>
+
+<!-- Panel que se abre al tocar una etiqueta -->
+<div id="fondo" class="fondo" hidden>
+  <div id="tarjeta" class="tarjeta-detalle" role="dialog" aria-modal="true" aria-labelledby="nombre-detalle">
+    <button id="cerrar" class="boton-cerrar" aria-label="Cerrar">×</button>
+
+    <h2 id="nombre-detalle"></h2>
+
+    <!-- Modo lectura -->
+    <div id="vista-lectura">
+      <div id="contenido-lista" class="contenido-lista"></div>
+      <button id="boton-editar" class="boton boton-secundario"></button>
+    </div>
+
+    <!-- Modo edición -->
+    <div id="vista-edicion" hidden>
+      <p class="ayuda">Escribe una idea por línea, así será más fácil de leer:</p>
+      <textarea id="texto-edicion" rows="6" placeholder="Un libro de misterio&#10;Medias de lana&#10;Chocolate sin azúcar"></textarea>
+      <div class="botonera">
+        <button id="boton-cancelar" class="boton boton-texto">Cancelar</button>
+        <button id="boton-guardar" class="boton boton-primario">Guardar lista</button>
+      </div>
+      <p id="mensaje-guardado" class="mensaje-guardado" hidden>¡Guardado!</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
