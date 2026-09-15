@@ -16,15 +16,6 @@
 </header>
 
 <main>
-  <form id="formulario-persona" class="formulario-persona">
-    <label for="nombre-nuevo">Tu nombre</label>
-    <div class="agregar-persona">
-      <input id="nombre-nuevo" type="text" maxlength="80" autocomplete="name" placeholder="Ejemplo: María" required />
-      <button class="boton boton-primario" type="submit">Agregar</button>
-    </div>
-    <p id="mensaje-persona" class="mensaje-persona" aria-live="polite"></p>
-  </form>
-
   <section class="participantes" aria-labelledby="titulo-participantes">
     <h2 id="titulo-participantes">Participantes</h2>
     <p id="mensaje-carga" class="mensaje">Cargando los nombres…</p>
@@ -44,7 +35,6 @@
     <div id="vista-lectura">
       <div id="contenido-lista" class="contenido-lista"></div>
       <button id="boton-editar" class="boton boton-secundario" type="button"></button>
-      <button id="boton-eliminar" class="boton boton-eliminar" type="button">Eliminar participante</button>
     </div>
 
     <!-- Modo edición -->
