@@ -13,24 +13,34 @@
 
 <header class="cabecera">
   <h1>Amigo secreto</h1>
-  <p class="subtitulo">Toca el nombre de la persona que quieras conocer para ver qué le gustaría recibir.</p>
+  <p class="subtitulo">Una lista de regalos fácil de usar para todos.</p>
 </header>
 
 <main>
-  <form id="formulario-persona" class="formulario-persona">
-    <label for="nombre-nuevo">Agregar participante</label>
+  <section class="paso" aria-labelledby="titulo-paso-uno">
+    <p class="numero-paso" aria-hidden="true">1</p>
+    <form id="formulario-persona" class="formulario-persona">
+    <h2 id="titulo-paso-uno">Escribe tu nombre</h2>
+    <p class="instruccion">Así podrás escribir las ideas de regalos que te gustan.</p>
     <div class="agregar-persona">
-      <input id="nombre-nuevo" type="text" maxlength="80" autocomplete="name" placeholder="Escribe un nombre" required />
-      <button class="boton boton-primario" type="submit">Agregar</button>
+      <input id="nombre-nuevo" type="text" maxlength="80" autocomplete="name" placeholder="Ejemplo: María" required />
+      <button class="boton boton-primario" type="submit">Agregar mi nombre</button>
     </div>
     <p id="mensaje-persona" class="mensaje-persona" aria-live="polite"></p>
-  </form>
-  <p id="mensaje-carga" class="mensaje">Cargando las listas…</p>
-  <div id="cuadricula" class="cuadricula" hidden></div>
+    </form>
+  </section>
+
+  <section class="paso paso-listas" aria-labelledby="titulo-paso-dos">
+    <p class="numero-paso" aria-hidden="true">2</p>
+    <h2 id="titulo-paso-dos">Toca un nombre</h2>
+    <p class="instruccion">Puedes ver su lista o tocar tu nombre para escribir la tuya.</p>
+    <p id="mensaje-carga" class="mensaje">Cargando los nombres…</p>
+    <div id="cuadricula" class="cuadricula" hidden></div>
+  </section>
 </main>
 
 <footer class="pie">
-  <p>¿No encuentras tu nombre? Agrégalo arriba. Para escribir tu lista, toca tu nombre.</p>
+  <p>Sin contraseñas y sin pasos complicados.</p>
 </footer>
 
 <!-- Panel que se abre al tocar una etiqueta -->
@@ -38,6 +48,7 @@
   <div id="tarjeta" class="tarjeta-detalle" role="dialog" aria-modal="true" aria-labelledby="nombre-detalle">
     <button id="cerrar" class="boton-cerrar" aria-label="Cerrar">×</button>
 
+    <p class="detalle-etiqueta">Lista de regalos de</p>
     <h2 id="nombre-detalle"></h2>
 
     <!-- Modo lectura -->
@@ -48,11 +59,11 @@
 
     <!-- Modo edición -->
     <div id="vista-edicion" hidden>
-      <p class="ayuda">Escribe una idea por línea, así será más fácil de leer:</p>
-      <textarea id="texto-edicion" rows="6" placeholder="Un libro de misterio&#10;Medias de lana&#10;Chocolate sin azúcar"></textarea>
+      <p class="ayuda">Escribe una idea en cada renglón. Por ejemplo:</p>
+      <textarea id="texto-edicion" rows="6" placeholder="Un libro&#10;Una planta&#10;Chocolate"></textarea>
       <div class="botonera">
-        <button id="boton-cancelar" class="boton boton-texto">Cancelar</button>
-        <button id="boton-guardar" class="boton boton-primario">Guardar lista</button>
+        <button id="boton-cancelar" class="boton boton-texto">Volver</button>
+        <button id="boton-guardar" class="boton boton-primario">Guardar mi lista</button>
       </div>
       <p id="mensaje-guardado" class="mensaje-guardado" hidden>¡Guardado!</p>
     </div>
