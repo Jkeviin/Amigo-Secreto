@@ -17,12 +17,20 @@
 </header>
 
 <main>
+  <form id="formulario-persona" class="formulario-persona">
+    <label for="nombre-nuevo">Agregar participante</label>
+    <div class="agregar-persona">
+      <input id="nombre-nuevo" type="text" maxlength="80" autocomplete="name" placeholder="Escribe un nombre" required />
+      <button class="boton boton-primario" type="submit">Agregar</button>
+    </div>
+    <p id="mensaje-persona" class="mensaje-persona" aria-live="polite"></p>
+  </form>
   <p id="mensaje-carga" class="mensaje">Cargando las listas…</p>
   <div id="cuadricula" class="cuadricula" hidden></div>
 </main>
 
 <footer class="pie">
-  <p>¿No encuentras tu nombre o tu lista está vacía? Tócala y escribe tus ideas.</p>
+  <p>¿No encuentras tu nombre? Agrégalo arriba. Para escribir tu lista, toca tu nombre.</p>
 </footer>
 
 <!-- Panel que se abre al tocar una etiqueta -->
