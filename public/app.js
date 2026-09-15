@@ -25,7 +25,7 @@ async function cargar() {
     const resp = await fetch("/api/listas");
     if (!resp.ok) throw new Error("respuesta no válida");
     const datos = await resp.json();
-    estado.nombres = datos.nombres;
+    estado.nombres = datos.nombres.filter((nombre) => typeof nombre === "string" && nombre.trim());
     estado.listas = datos.listas;
     renderCuadricula();
     el.mensajeCarga.hidden = true;
@@ -38,6 +38,11 @@ async function cargar() {
 
 function renderCuadricula() {
   el.cuadricula.innerHTML = "";
+  if (estado.nombres.length === 0) {
+    el.cuadricula.innerHTML = '<p class="vacio cuadricula-vacia">Todavía no hay nombres. Empieza escribiendo el tuyo arriba.</p>';
+    return;
+  }
+
   estado.nombres.forEach((nombre) => {
     const boton = document.createElement("button");
     boton.type = "button";
@@ -85,7 +90,7 @@ function cerrarDetalle() {
 function mostrarVistaLectura() {
   const texto = estado.listas[personaActual] || "";
   renderContenidoLista(texto);
-  el.botonEditar.textContent = texto.trim() ? "Editar esta lista" : "Escribir mi lista";
+  el.botonEditar.textContent = texto.trim() ? "Cambiar esta lista" : "Escribir una lista";
   el.vistaLectura.hidden = false;
   el.vistaEdicion.hidden = true;
   el.mensajeGuardado.hidden = true;
@@ -156,6 +161,7 @@ async function agregarPersona(evento) {
     el.nombreNuevo.value = "";
     el.mensajePersona.textContent = `${datos.nombre} fue agregado.`;
     renderCuadricula();
+    abrirDetalle(datos.nombre);
   } catch (err) {
     el.mensajePersona.textContent = err.message;
   } finally {
