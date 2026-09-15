@@ -14,43 +14,30 @@
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at 50% -10%, #fffdf6 0, var(--fondo) 48%, #edf1ec 100%);
+  background: var(--fondo);
   color: var(--tinta);
-  font-family: "Karla", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   min-height: 100vh;
 }
 
 .cabecera {
   text-align: center;
-  padding: 48px 20px 32px;
+  padding: 32px 20px 18px;
 }
 
 .cabecera h1 {
-  font-family: "Fraunces", serif;
-  font-weight: 600;
-  font-size: clamp(2.3rem, 7vw, 3.4rem);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 6vw, 2.4rem);
   color: var(--verde);
   margin: 0;
 }
 
 .cabecera h1::before {
-  content: "🎁";
-  display: inline-block;
-  margin-right: 12px;
-  font-family: sans-serif;
-  font-size: 0.58em;
-  vertical-align: 0.12em;
+  content: none;
 }
 
 .cabecera::after {
-  content: "";
-  display: block;
-  width: 54px;
-  height: 3px;
-  margin: 18px auto 0;
-  border-radius: 999px;
-  background: #d9b65c;
+  content: none;
 }
 
 main {
@@ -88,13 +75,12 @@ main {
 }
 
 .participantes {
-  margin-top: 42px;
+  margin-top: 8px;
 }
 
 .participantes h2 {
   margin: 0 0 18px;
-  font-family: "Fraunces", serif;
-  font-size: 1.65rem;
+  font-size: 1.15rem;
   color: var(--verde);
 }
 
@@ -107,33 +93,29 @@ main {
 
 .cuadricula {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
   padding: 0 0 4px;
 }
 
 .etiqueta {
-  position: relative;
   background: var(--blanco);
   border: 1px solid var(--borde);
-  border-top: 3px solid #dfc67d;
-  border-radius: 12px;
-  padding: 20px 14px;
-  min-height: 76px;
+  border-radius: 8px;
+  padding: 16px;
+  min-height: 68px;
   cursor: pointer;
-  font-family: "Karla", sans-serif;
-  font-weight: 700;
-  font-size: 1.18rem;
+  font: 600 1.05rem/1.35 inherit;
+  text-align: center;
   color: var(--tinta);
-  box-shadow: 0 2px 5px rgba(16, 55, 43, 0.08);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .etiqueta:hover,
 .etiqueta:focus-visible {
-  transform: translateY(-2px);
   border-color: var(--verde);
-  box-shadow: 0 6px 14px rgba(16, 55, 43, 0.12);
+  background: #f1f7f4;
 }
 
 .cuadricula-vacia {
@@ -160,7 +142,7 @@ main {
 }
 
 .tarjeta-detalle {
-  background: #fffdf7;
+  background: var(--blanco);
   color: var(--tinta);
   width: 100%;
   max-width: 480px;
@@ -195,7 +177,7 @@ main {
   border: none;
   background: rgba(43, 32, 20, 0.08);
   padding: 0 14px;
-  font: 700 1rem "Karla", sans-serif;
+  font: 700 1rem inherit;
   line-height: 1;
   cursor: pointer;
   color: var(--tinta);
@@ -206,9 +188,8 @@ main {
 }
 
 #nombre-detalle {
-  font-family: "Fraunces", serif;
-  font-weight: 600;
-  font-size: 1.85rem;
+  font-weight: 700;
+  font-size: 1.55rem;
   margin: 0 0 18px;
   padding-right: 92px;
   overflow-wrap: anywhere;
@@ -258,7 +239,7 @@ main {
 .boton {
   cursor: pointer;
   border-radius: 8px;
-  font-family: "Karla", sans-serif;
+  font-family: inherit;
   font-weight: 700;
   font-size: 1.1rem;
   min-height: 52px;
@@ -310,7 +291,7 @@ main {
 
 #texto-edicion {
   width: 100%;
-  font-family: "Karla", sans-serif;
+  font-family: inherit;
   font-size: 1.15rem;
   line-height: 1.5;
   padding: 14px;
@@ -368,11 +349,7 @@ main {
 
 @media (max-width: 420px) {
   .cabecera {
-    padding: 40px 16px 16px;
-  }
-
-  .cabecera h1::before {
-    margin-right: 8px;
+    padding: 24px 16px 14px;
   }
   main {
     padding: 0 14px 24px;
