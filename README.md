@@ -4,20 +4,10 @@ Página muy sencilla para el amigo secreto: cada quien escribe lo que le gustar�
 recibir, y cualquiera puede tocar un nombre para ver esa lista (no hay usuarios
 ni contraseñas, para que nadie quede "bloqueado" si abre el nombre que no era).
 
-## 1. Pon los nombres de tu grupo
+## 1. Agrega participantes
 
-Abre el archivo `server.js` y busca este bloque cerca del inicio:
-
-```js
-const NOMBRES = [
-  "Persona 1",
-  "Persona 2",
-  ...
-];
-```
-
-Cambia esos nombres por los de tu grupo (pueden ser más o menos de 10). Guarda
-el archivo. Eso es todo lo que hay que editar.
+Abre la página y escribe cada nombre en **Agregar participante**. Los nombres
+quedan guardados junto con sus listas, sin editar `server.js` ni redeployar.
 
 ## 2. Probarla en tu computador (opcional)
 
