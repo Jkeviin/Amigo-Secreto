@@ -86,9 +86,15 @@ function abrirDetalle(nombre) {
 function cerrarDetalle() {
   el.fondo.hidden = true;
   personaActual = null;
+  el.nombreDetalle.textContent = "";
 }
 
 function mostrarVistaLectura() {
+  if (!personaActual || !estado.nombres.includes(personaActual)) {
+    cerrarDetalle();
+    return;
+  }
+
   const texto = estado.listas[personaActual] || "";
   renderContenidoLista(texto);
   el.botonEditar.textContent = texto.trim() ? "Editar mi lista" : "Escribir mi lista";
@@ -98,6 +104,11 @@ function mostrarVistaLectura() {
 }
 
 function mostrarVistaEdicion() {
+  if (!personaActual || !estado.nombres.includes(personaActual)) {
+    cerrarDetalle();
+    return;
+  }
+
   el.textoEdicion.value = estado.listas[personaActual] || "";
   el.vistaLectura.hidden = true;
   el.vistaEdicion.hidden = false;
@@ -166,12 +177,11 @@ async function agregarPersona(evento) {
     const datos = await resp.json();
     if (!resp.ok) throw new Error(datos.error || "No se pudo agregar el participante.");
 
-    estado.nombres = datos.nombres;
+    estado.nombres = datos.nombres.filter((nombreActual) => typeof nombreActual === "string" && nombreActual.trim());
     estado.listas = datos.listas;
     el.nombreNuevo.value = "";
-    el.mensajePersona.textContent = `${datos.nombre} fue agregado.`;
+    el.mensajePersona.textContent = "¡Listo! Ahora toca tu nombre abajo.";
     renderCuadricula();
-    abrirDetalle(datos.nombre);
   } catch (err) {
     el.mensajePersona.textContent = err.message;
   } finally {
@@ -194,4 +204,5 @@ document.addEventListener("keydown", (evento) => {
   if (evento.key === "Escape" && !el.fondo.hidden) cerrarDetalle();
 });
 
+cerrarDetalle();
 cargar();
