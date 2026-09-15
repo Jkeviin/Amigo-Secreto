@@ -13,35 +13,24 @@
 
 <header class="cabecera">
   <h1>Amigo secreto</h1>
-  <p class="subtitulo">Regalos fáciles de elegir.</p>
 </header>
 
 <main>
-  <section class="paso" aria-labelledby="titulo-paso-uno">
-    <p class="numero-paso" aria-hidden="true">1</p>
-    <form id="formulario-persona" class="formulario-persona">
-    <h2 id="titulo-paso-uno">Escribe tu nombre</h2>
-    <p class="instruccion">Después escribe los regalos que te gustan.</p>
+  <form id="formulario-persona" class="formulario-persona">
+    <label for="nombre-nuevo">Tu nombre</label>
     <div class="agregar-persona">
       <input id="nombre-nuevo" type="text" maxlength="80" autocomplete="name" placeholder="Ejemplo: María" required />
-      <button class="boton boton-primario" type="submit">Agregar mi nombre</button>
+      <button class="boton boton-primario" type="submit">Agregar</button>
     </div>
     <p id="mensaje-persona" class="mensaje-persona" aria-live="polite"></p>
-    </form>
-  </section>
+  </form>
 
-  <section class="paso paso-listas" aria-labelledby="titulo-paso-dos">
-    <p class="numero-paso" aria-hidden="true">2</p>
-    <h2 id="titulo-paso-dos">Toca un nombre</h2>
-    <p class="instruccion">Toca tu nombre para escribir tu lista.</p>
+  <section class="participantes" aria-labelledby="titulo-participantes">
+    <h2 id="titulo-participantes">Participantes</h2>
     <p id="mensaje-carga" class="mensaje">Cargando los nombres…</p>
     <div id="cuadricula" class="cuadricula" hidden></div>
   </section>
 </main>
-
-<footer class="pie">
-  <p>Sin contraseñas.</p>
-</footer>
 
 <!-- Panel que se abre al tocar una etiqueta -->
 <div id="fondo" class="fondo" hidden>
@@ -55,6 +44,7 @@
     <div id="vista-lectura">
       <div id="contenido-lista" class="contenido-lista"></div>
       <button id="boton-editar" class="boton boton-secundario" type="button"></button>
+      <button id="boton-eliminar" class="boton boton-eliminar" type="button">Eliminar participante</button>
     </div>
 
     <!-- Modo edición -->
