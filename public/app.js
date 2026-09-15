@@ -75,6 +75,7 @@ function renderContenidoLista(texto) {
 }
 
 function abrirDetalle(nombre) {
+  if (!nombre || !estado.nombres.includes(nombre)) return;
   personaActual = nombre;
   el.nombreDetalle.textContent = nombre;
   mostrarVistaLectura();
@@ -90,7 +91,7 @@ function cerrarDetalle() {
 function mostrarVistaLectura() {
   const texto = estado.listas[personaActual] || "";
   renderContenidoLista(texto);
-  el.botonEditar.textContent = texto.trim() ? "Cambiar esta lista" : "Escribir una lista";
+  el.botonEditar.textContent = texto.trim() ? "Editar mi lista" : "Escribir mi lista";
   el.vistaLectura.hidden = false;
   el.vistaEdicion.hidden = true;
   el.mensajeGuardado.hidden = true;
@@ -105,19 +106,26 @@ function mostrarVistaEdicion() {
 }
 
 async function guardarLista() {
+  const nombre = personaActual;
+  if (!nombre || !estado.nombres.includes(nombre)) {
+    cerrarDetalle();
+    alert("Primero toca tu nombre para escribir tu lista.");
+    return;
+  }
+
   const texto = el.textoEdicion.value;
   el.botonGuardar.disabled = true;
   el.botonGuardar.textContent = "Guardando…";
 
   try {
-    const resp = await fetch(`/api/listas/${encodeURIComponent(personaActual)}`, {
+    const resp = await fetch(`/api/listas/${encodeURIComponent(nombre)}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ texto }),
     });
     if (!resp.ok) throw new Error("no se pudo guardar");
 
-    estado.listas[personaActual] = texto;
+    estado.listas[nombre] = texto;
     el.mensajeGuardado.hidden = false;
 
     if (window.confetti) {
@@ -129,7 +137,9 @@ async function guardarLista() {
       });
     }
 
-    setTimeout(mostrarVistaLectura, 900);
+    setTimeout(() => {
+      if (personaActual === nombre) mostrarVistaLectura();
+    }, 900);
   } catch (err) {
     alert("No se pudo guardar. Revisa tu conexión e intenta de nuevo.");
   } finally {
@@ -173,7 +183,10 @@ el.formularioPersona.addEventListener("submit", agregarPersona);
 el.botonEditar.addEventListener("click", mostrarVistaEdicion);
 el.botonCancelar.addEventListener("click", mostrarVistaLectura);
 el.botonGuardar.addEventListener("click", guardarLista);
-el.cerrar.addEventListener("click", cerrarDetalle);
+el.cerrar.addEventListener("click", (evento) => {
+  evento.preventDefault();
+  cerrarDetalle();
+});
 el.fondo.addEventListener("click", (evento) => {
   if (evento.target === el.fondo) cerrarDetalle();
 });
