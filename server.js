@@ -5,27 +5,10 @@ const path = require("path");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ─────────────────────────────────────────────────────────────
-// ✏️  EDITA AQUÍ: pon los nombres de las personas que participan.
-// Deben ser únicos. Puedes tener más o menos de 10 sin problema.
-// ─────────────────────────────────────────────────────────────
-const NOMBRES = [
-  "Persona 1",
-  "Persona 2",
-  "Persona 3",
-  "Persona 4",
-  "Persona 5",
-  "Persona 6",
-  "Persona 7",
-  "Persona 8",
-  "Persona 9",
-  "Persona 10",
-];
-
 const DATA_DIR = path.join(__dirname, "data");
 const DATA_FILE = path.join(DATA_DIR, "listas.json");
 
-// Lee (o crea) el archivo donde viven las listas de cada persona.
+// Lee (o crea) las listas. Las claves son los nombres de los participantes.
 function cargarListas() {
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -33,25 +16,11 @@ function cargarListas() {
 
   if (!fs.existsSync(DATA_FILE)) {
     const inicial = {};
-    NOMBRES.forEach((nombre) => (inicial[nombre] = ""));
     fs.writeFileSync(DATA_FILE, JSON.stringify(inicial, null, 2));
     return inicial;
   }
 
-  const listas = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-
-  // Si se agregó un nombre nuevo en NOMBRES después de crear el archivo,
-  // lo añadimos aquí para que no falte nadie.
-  let cambio = false;
-  NOMBRES.forEach((nombre) => {
-    if (!(nombre in listas)) {
-      listas[nombre] = "";
-      cambio = true;
-    }
-  });
-  if (cambio) fs.writeFileSync(DATA_FILE, JSON.stringify(listas, null, 2));
-
-  return listas;
+  return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
 }
 
 function guardarListas(listas) {
@@ -64,7 +33,25 @@ app.use(express.static(path.join(__dirname, "public")));
 // Devuelve los nombres y las listas actuales.
 app.get("/api/listas", (req, res) => {
   const listas = cargarListas();
-  res.json({ nombres: NOMBRES, listas });
+  res.json({ nombres: Object.keys(listas), listas });
+});
+
+// Agrega un participante sin necesidad de editar el código.
+app.post("/api/personas", (req, res) => {
+  const nombre = typeof req.body.nombre === "string" ? req.body.nombre.trim() : "";
+  if (!nombre || nombre.length > 80) {
+    return res.status(400).json({ error: "Escribe un nombre de hasta 80 caracteres." });
+  }
+
+  const listas = cargarListas();
+  const yaExiste = Object.keys(listas).some((actual) => actual.toLocaleLowerCase() === nombre.toLocaleLowerCase());
+  if (yaExiste) {
+    return res.status(409).json({ error: "Ese participante ya existe." });
+  }
+
+  listas[nombre] = "";
+  guardarListas(listas);
+  res.status(201).json({ nombre, nombres: Object.keys(listas), listas });
 });
 
 // Guarda (o actualiza) la lista de una persona.
@@ -72,14 +59,14 @@ app.post("/api/listas/:nombre", (req, res) => {
   const { nombre } = req.params;
   const texto = typeof req.body.texto === "string" ? req.body.texto : "";
 
-  if (!NOMBRES.includes(nombre)) {
+  const listas = cargarListas();
+  if (!(nombre in listas)) {
     return res.status(404).json({ error: "Ese nombre no existe." });
   }
   if (texto.length > 3000) {
     return res.status(400).json({ error: "La lista es demasiado larga." });
   }
 
-  const listas = cargarListas();
   listas[nombre] = texto;
   guardarListas(listas);
 
