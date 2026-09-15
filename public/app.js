@@ -2,6 +2,9 @@ const estado = { nombres: [], listas: {} };
 let personaActual = null;
 
 const el = {
+  formularioPersona: document.getElementById("formulario-persona"),
+  nombreNuevo: document.getElementById("nombre-nuevo"),
+  mensajePersona: document.getElementById("mensaje-persona"),
   mensajeCarga: document.getElementById("mensaje-carga"),
   cuadricula: document.getElementById("cuadricula"),
   fondo: document.getElementById("fondo"),
@@ -130,6 +133,37 @@ async function guardarLista() {
   }
 }
 
+async function agregarPersona(evento) {
+  evento.preventDefault();
+  const nombre = el.nombreNuevo.value.trim();
+  if (!nombre) return;
+
+  const boton = el.formularioPersona.querySelector("button");
+  boton.disabled = true;
+  el.mensajePersona.textContent = "";
+
+  try {
+    const resp = await fetch("/api/personas", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nombre }),
+    });
+    const datos = await resp.json();
+    if (!resp.ok) throw new Error(datos.error || "No se pudo agregar el participante.");
+
+    estado.nombres = datos.nombres;
+    estado.listas = datos.listas;
+    el.nombreNuevo.value = "";
+    el.mensajePersona.textContent = `${datos.nombre} fue agregado.`;
+    renderCuadricula();
+  } catch (err) {
+    el.mensajePersona.textContent = err.message;
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+el.formularioPersona.addEventListener("submit", agregarPersona);
 el.botonEditar.addEventListener("click", mostrarVistaEdicion);
 el.botonCancelar.addEventListener("click", mostrarVistaLectura);
 el.botonGuardar.addEventListener("click", guardarLista);
