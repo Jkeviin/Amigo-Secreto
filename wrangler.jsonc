@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/wrangler.json",
+  "name": "amigo-secreto",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-09-15",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "amigo-secreto-db",
+      "database_id": "6d067e5d-7ea6-467a-8da5-12cc31422c54"
+    }
+  ]
+}
