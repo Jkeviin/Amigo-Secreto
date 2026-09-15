@@ -2,9 +2,6 @@ const estado = { nombres: [], listas: {} };
 let personaActual = null;
 
 const el = {
-  formularioPersona: document.getElementById("formulario-persona"),
-  nombreNuevo: document.getElementById("nombre-nuevo"),
-  mensajePersona: document.getElementById("mensaje-persona"),
   mensajeCarga: document.getElementById("mensaje-carga"),
   cuadricula: document.getElementById("cuadricula"),
   fondo: document.getElementById("fondo"),
@@ -13,7 +10,6 @@ const el = {
   vistaLectura: document.getElementById("vista-lectura"),
   contenidoLista: document.getElementById("contenido-lista"),
   botonEditar: document.getElementById("boton-editar"),
-  botonEliminar: document.getElementById("boton-eliminar"),
   vistaEdicion: document.getElementById("vista-edicion"),
   textoEdicion: document.getElementById("texto-edicion"),
   botonCancelar: document.getElementById("boton-cancelar"),
@@ -160,64 +156,7 @@ async function guardarLista() {
   }
 }
 
-async function agregarPersona(evento) {
-  evento.preventDefault();
-  const nombre = el.nombreNuevo.value.trim();
-  if (!nombre) return;
-
-  const boton = el.formularioPersona.querySelector("button");
-  boton.disabled = true;
-  el.mensajePersona.textContent = "";
-
-  try {
-    const resp = await fetch("/api/personas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nombre }),
-    });
-    const datos = await resp.json();
-    if (!resp.ok) throw new Error(datos.error || "No se pudo agregar el participante.");
-
-    estado.nombres = datos.nombres.filter((nombreActual) => typeof nombreActual === "string" && nombreActual.trim());
-    estado.listas = datos.listas;
-    el.nombreNuevo.value = "";
-    el.mensajePersona.textContent = "Nombre agregado.";
-    renderCuadricula();
-    setTimeout(() => {
-      el.mensajePersona.textContent = "";
-    }, 3000);
-  } catch (err) {
-    el.mensajePersona.textContent = err.message;
-  } finally {
-    boton.disabled = false;
-  }
-}
-
-async function eliminarPersona() {
-  const nombre = personaActual;
-  if (!nombre || !estado.nombres.includes(nombre)) return;
-  if (!window.confirm(`¿Eliminar a ${nombre} y su lista? Esta acción no se puede deshacer.`)) return;
-
-  el.botonEliminar.disabled = true;
-  try {
-    const resp = await fetch(`/api/personas/${encodeURIComponent(nombre)}`, { method: "DELETE" });
-    const datos = await resp.json();
-    if (!resp.ok) throw new Error(datos.error || "No se pudo eliminar.");
-
-    estado.nombres = datos.nombres;
-    estado.listas = datos.listas;
-    cerrarDetalle();
-    renderCuadricula();
-  } catch (err) {
-    alert(err.message);
-  } finally {
-    el.botonEliminar.disabled = false;
-  }
-}
-
-el.formularioPersona.addEventListener("submit", agregarPersona);
 el.botonEditar.addEventListener("click", mostrarVistaEdicion);
-el.botonEliminar.addEventListener("click", eliminarPersona);
 el.botonCancelar.addEventListener("click", mostrarVistaLectura);
 el.botonGuardar.addEventListener("click", guardarLista);
 el.cerrar.addEventListener("click", (evento) => {
