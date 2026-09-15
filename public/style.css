@@ -187,6 +187,10 @@ main {
   perspective: 900px;
 }
 
+#fondo[hidden] {
+  display: none !important;
+}
+
 .tarjeta-detalle {
   background: var(--kraft-claro);
   color: var(--tinta);
