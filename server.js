@@ -20,7 +20,17 @@ function cargarListas() {
     return inicial;
   }
 
-  return JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+  const listas = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+  const listasValidas = Object.fromEntries(
+    Object.entries(listas).filter(([nombre]) => nombre.trim())
+  );
+
+  // Borra datos antiguos que pudieran haber creado un participante sin nombre.
+  if (Object.keys(listasValidas).length !== Object.keys(listas).length) {
+    guardarListas(listasValidas);
+  }
+
+  return listasValidas;
 }
 
 function guardarListas(listas) {
