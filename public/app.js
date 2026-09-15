@@ -13,6 +13,7 @@ const el = {
   vistaLectura: document.getElementById("vista-lectura"),
   contenidoLista: document.getElementById("contenido-lista"),
   botonEditar: document.getElementById("boton-editar"),
+  botonEliminar: document.getElementById("boton-eliminar"),
   vistaEdicion: document.getElementById("vista-edicion"),
   textoEdicion: document.getElementById("texto-edicion"),
   botonCancelar: document.getElementById("boton-cancelar"),
@@ -180,8 +181,11 @@ async function agregarPersona(evento) {
     estado.nombres = datos.nombres.filter((nombreActual) => typeof nombreActual === "string" && nombreActual.trim());
     estado.listas = datos.listas;
     el.nombreNuevo.value = "";
-    el.mensajePersona.textContent = "¡Listo! Ahora toca tu nombre abajo.";
+    el.mensajePersona.textContent = "Nombre agregado.";
     renderCuadricula();
+    setTimeout(() => {
+      el.mensajePersona.textContent = "";
+    }, 3000);
   } catch (err) {
     el.mensajePersona.textContent = err.message;
   } finally {
@@ -189,8 +193,31 @@ async function agregarPersona(evento) {
   }
 }
 
+async function eliminarPersona() {
+  const nombre = personaActual;
+  if (!nombre || !estado.nombres.includes(nombre)) return;
+  if (!window.confirm(`¿Eliminar a ${nombre} y su lista? Esta acción no se puede deshacer.`)) return;
+
+  el.botonEliminar.disabled = true;
+  try {
+    const resp = await fetch(`/api/personas/${encodeURIComponent(nombre)}`, { method: "DELETE" });
+    const datos = await resp.json();
+    if (!resp.ok) throw new Error(datos.error || "No se pudo eliminar.");
+
+    estado.nombres = datos.nombres;
+    estado.listas = datos.listas;
+    cerrarDetalle();
+    renderCuadricula();
+  } catch (err) {
+    alert(err.message);
+  } finally {
+    el.botonEliminar.disabled = false;
+  }
+}
+
 el.formularioPersona.addEventListener("submit", agregarPersona);
 el.botonEditar.addEventListener("click", mostrarVistaEdicion);
+el.botonEliminar.addEventListener("click", eliminarPersona);
 el.botonCancelar.addEventListener("click", mostrarVistaLectura);
 el.botonGuardar.addEventListener("click", guardarLista);
 el.cerrar.addEventListener("click", (evento) => {
