@@ -96,6 +96,23 @@ main {
   text-align: center;
 }
 
+.buscar-participante {
+  display: block;
+  width: min(100%, 360px);
+  min-height: 44px;
+  margin: 0 auto 22px;
+  padding: 10px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #f8faf9;
+  color: var(--tinta);
+  font: inherit;
+}
+
+.buscar-participante::placeholder {
+  color: #7a8580;
+}
+
 .mensaje {
   text-align: center;
   padding: 24px 20px;
