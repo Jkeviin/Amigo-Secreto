@@ -3,6 +3,7 @@ let personaActual = null;
 
 const el = {
   mensajeCarga: document.getElementById("mensaje-carga"),
+  buscarParticipante: document.getElementById("buscar-participante"),
   cuadricula: document.getElementById("cuadricula"),
   fondo: document.getElementById("fondo"),
   cerrar: document.getElementById("cerrar"),
@@ -33,14 +34,14 @@ async function cargar() {
   }
 }
 
-function renderCuadricula() {
+function renderCuadricula(nombres = estado.nombres) {
   el.cuadricula.innerHTML = "";
-  if (estado.nombres.length === 0) {
-    el.cuadricula.innerHTML = '<p class="vacio cuadricula-vacia">Todavía no hay nombres. Empieza escribiendo el tuyo arriba.</p>';
+  if (nombres.length === 0) {
+    el.cuadricula.innerHTML = '<p class="vacio cuadricula-vacia">No encontramos ese nombre.</p>';
     return;
   }
 
-  estado.nombres.forEach((nombre, indice) => {
+  nombres.forEach((nombre, indice) => {
     const boton = document.createElement("button");
     boton.type = "button";
     boton.className = "etiqueta";
@@ -49,6 +50,18 @@ function renderCuadricula() {
     boton.addEventListener("click", () => abrirDetalle(nombre));
     el.cuadricula.appendChild(boton);
   });
+}
+
+function filtrarParticipantes() {
+  const termino = el.buscarParticipante.value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLocaleLowerCase()
+    .trim();
+  const nombres = estado.nombres.filter((nombre) =>
+    nombre.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase().includes(termino)
+  );
+  renderCuadricula(nombres);
 }
 
 function renderContenidoLista(texto) {
@@ -160,6 +173,7 @@ async function guardarLista() {
 el.botonEditar.addEventListener("click", mostrarVistaEdicion);
 el.botonCancelar.addEventListener("click", mostrarVistaLectura);
 el.botonGuardar.addEventListener("click", guardarLista);
+el.buscarParticipante.addEventListener("input", filtrarParticipantes);
 el.cerrar.addEventListener("click", (evento) => {
   evento.preventDefault();
   cerrarDetalle();
