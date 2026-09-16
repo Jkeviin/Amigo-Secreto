@@ -40,10 +40,11 @@ function renderCuadricula() {
     return;
   }
 
-  estado.nombres.forEach((nombre) => {
+  estado.nombres.forEach((nombre, indice) => {
     const boton = document.createElement("button");
     boton.type = "button";
     boton.className = "etiqueta";
+    boton.style.setProperty("--delay", `${Math.min(indice, 8) * 45}ms`);
     boton.textContent = nombre;
     boton.addEventListener("click", () => abrirDetalle(nombre));
     el.cuadricula.appendChild(boton);
